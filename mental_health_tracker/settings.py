@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-r8p@p2!r(!7rua53u(0&rfxzx_m3tr#z3_1o4%b@o((ymi3p=0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "clarissa-indriana-mentalhealthtracker.pbp.cs.ui.ac.id"]
 
 
 # Application definition
