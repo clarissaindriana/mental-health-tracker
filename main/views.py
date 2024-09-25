@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect  
+from django.shortcuts import render, redirect, reverse 
 from main.forms import MoodEntryForm
 from main.models import MoodEntry
 from django.http import HttpResponse
@@ -29,6 +29,7 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
+# TUTORIAL 2
 def create_mood_entry(request):
     form = MoodEntryForm(request.POST or None)
 
@@ -57,6 +58,7 @@ def show_json_by_id(request, id):
     data = MoodEntry.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+# TUTORIAL 3
 def register(request):
     form = UserCreationForm()
 
@@ -90,3 +92,27 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+# TUTORIAL 4
+def edit_mood(request, id):
+    # Get mood entry berdasarkan id
+    mood = MoodEntry.objects.get(pk = id)
+
+    # Set mood entry sebagai instance dari form
+    form = MoodEntryForm(request.POST or None, instance=mood)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_mood.html", context)
+
+def delete_mood(request, id):
+    # Get mood berdasarkan id
+    mood = MoodEntry.objects.get(pk = id)
+    # Hapus mood
+    mood.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
